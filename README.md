@@ -69,18 +69,17 @@ CREATE POLICY "Allow all on issues" ON issues FOR ALL USING (true) WITH CHECK (t
 
 ### Step 3: Seed the Admin User
 
-1. In the SQL Editor, run this query to create the admin user with a bcrypt hash:
+Run this in the SQL Editor:
 
 ```sql
--- Password: pass$123 (bcrypt hash)
 INSERT INTO users (username, password_hash)
-VALUES ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi')
+VALUES ('admin', '$2y$10$BlUAqtEP6QQX5qmsNjxQAuvJBEoNfJfoF6VnDZghRYyPzukBl6f9a')
 ON CONFLICT (username) DO NOTHING;
 ```
 
-> **Note**: The hash above is a placeholder. You can also seed via the API after deployment (see Step 9).
+Verify: `SELECT * FROM users;` — you should see the admin user.
 
-2. Verify by running: `SELECT * FROM users;` — you should see the admin user.
+> Alternatively, you can skip this SQL and seed via the API after deployment: visit `/api/seed`.
 
 ### Step 4: Push Code to GitHub
 

@@ -19,15 +19,23 @@ try {
     }
 
     $result = supabaseRequest('GET', "users?username=eq.$username&select=*");
-    if ($result['code'] !== 200 || empty($result['data'])) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Invalid credentials']);
+
+    if ($result['code'] !== 200) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Supabase query failed', 'supabase_code' => $result['code'], 'supabase_data' => $result['data']]);
         exit;
     }
 
-    if (!password_verify($password, $result['data'][0]['password_hash'])) {
+    if (empty($result['data'])) {
         http_response_code(401);
-        echo json_encode(['error' => 'Invalid credentials']);
+        echo json_encode(['error' => 'User not found in Supabase']);
+        exit;
+    }
+
+    $storedHash = $result['data'][0]['password_hash'];
+    if (!password_verify($password, $storedHash)) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Password does not match stored hash']);
         exit;
     }
 
