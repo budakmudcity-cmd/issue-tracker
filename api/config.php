@@ -12,20 +12,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-$envError = null;
 $supabaseUrl = getenv('SUPABASE_URL');
 $supabaseKey = getenv('SUPABASE_KEY');
 $jwtSecret   = getenv('JWT_SECRET');
 
-if (!$supabaseUrl) $envError = 'Missing SUPABASE_URL env var';
-elseif (!$supabaseKey) $envError = 'Missing SUPABASE_KEY env var';
-elseif (!$jwtSecret) $envError = 'Missing JWT_SECRET env var';
-
-if ($envError) {
+if (!$supabaseUrl || !$supabaseKey || !$jwtSecret) {
     http_response_code(500);
-    echo json_encode(['error' => $envError]);
+    echo json_encode([
+        'error' => 'Missing environment variables',
+        'details' => [
+            'SUPABASE_URL' => $supabaseUrl ? 'set' : 'missing',
+            'SUPABASE_KEY' => $supabaseKey ? 'set' : 'missing',
+            'JWT_SECRET'   => $jwtSecret   ? 'set' : 'missing',
+        ]
+    ]);
     exit;
 }
+
+define('SUPABASE_URL', $supabaseUrl);
+define('SUPABASE_KEY', $supabaseKey);
+define('JWT_SECRET', $jwtSecret);
 
 function supabaseRequest($method, $endpoint, $data = null) {
     $url = rtrim(SUPABASE_URL, '/') . '/rest/v1/' . $endpoint;
