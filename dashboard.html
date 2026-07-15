@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Issue Tracker - Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="logo">Issue Tracker</h1>
+      <div class="header-right">
+        <span class="user-badge" id="userDisplay"></span>
+        <button id="logoutBtn" class="btn-outline">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="toolbar">
+      <div class="filters">
+        <select id="filterStatus" class="filter-select">
+          <option value="">All Statuses</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+          <option value="closed">Closed</option>
+        </select>
+        <select id="filterPriority" class="filter-select">
+          <option value="">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="critical">Critical</option>
+        </select>
+      </div>
+      <button id="createBtn" class="btn-primary">+ New Issue</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="issues-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Created</th>
+            <th>Assigned</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="issuesBody">
+          <tr><td colspan="7" class="loading-cell">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+</div>
+
+<div id="issueModal" class="modal-overlay hidden">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">New Issue</h2>
+      <button id="modalClose" class="modal-close">&times;</button>
+    </div>
+    <form id="issueForm">
+      <input type="hidden" id="issueId">
+      <div class="form-group">
+        <label for="issueTitle">Title</label>
+        <input type="text" id="issueTitle" required>
+      </div>
+      <div class="form-group">
+        <label for="issueDesc">Description</label>
+        <textarea id="issueDesc" rows="4"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="issueStatus">Status</label>
+          <select id="issueStatus">
+            <option value="open">Open</option>
+            <option value="in_progress">In Progress</option>
+            <option value="resolved">Resolved</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="issuePriority">Priority</label>
+          <select id="issuePriority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="issueAssigned">Assigned To</label>
+          <select id="issueAssigned">
+            <option value="">Unassigned</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="modalCancel" class="btn-outline">Cancel</button>
+        <button type="submit" class="btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
