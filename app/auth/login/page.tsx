@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -14,21 +14,28 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
+  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
+
+  const getSupabase = () => {
+    if (!supabaseRef.current) supabaseRef.current = createClient();
+    return supabaseRef.current;
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    const supabase = getSupabase();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       toast.error(error.message);
       setLoading(false);
       return;
     }
+    const { data: userData } = await supabase.auth.getUser();
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
-      .eq("id", (await supabase.auth.getUser()).data.user?.id)
+      .eq("id", userData?.user?.id)
       .single();
 
     if (profile?.role === "admin") {

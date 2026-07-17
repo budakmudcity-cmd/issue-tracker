@@ -1,0 +1,12 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/page": "/",
+  "/auth/login/page": "/auth/login",
+  "/(dashboard)/admin/dashboard/page": "/admin/dashboard",
+  "/(dashboard)/dashboard/page": "/dashboard",
+  "/(dashboard)/projects/[projectId]/issues/[issueId]/edit/page": "/projects/[projectId]/issues/[issueId]/edit",
+  "/(dashboard)/projects/[projectId]/issues/new/page": "/projects/[projectId]/issues/new",
+  "/(dashboard)/projects/[projectId]/issues/[issueId]/page": "/projects/[projectId]/issues/[issueId]",
+  "/(dashboard)/admin/settings/page": "/admin/settings",
+  "/(dashboard)/projects/[projectId]/page": "/projects/[projectId]"
+}
