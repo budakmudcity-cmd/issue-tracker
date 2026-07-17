@@ -1,0 +1,16 @@
+node_modules/
+
+.next/
+
+dist/
+
+build/
+
+.env
+.env.local
+
+*.log
+
+coverage/
+
+.vscode/settings.json
